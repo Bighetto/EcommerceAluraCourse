@@ -7,15 +7,23 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         var producer = new KafkaProducer<String, String>(properties());
         var value = "1241421, 321312, 5425276453";
         var record = new ProducerRecord<String, String>("ECOMMERCE_NEW_ORDER", value, value);
-        producer.send(record);
+        producer.send(record, (data, ex)->
+        {
+            if (ex != null) {
+                ex.printStackTrace();
+                return;
+            }
+            System.out.println("Sucesso enviando " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp());
+        }).get();
     }
 
     private static Properties properties(){
