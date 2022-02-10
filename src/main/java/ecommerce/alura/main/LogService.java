@@ -7,6 +7,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class LogService {
@@ -29,7 +30,7 @@ public class LogService {
                     System.out.println(record.key());
                     System.out.println(record.value());
                     System.out.println(record.partition());
-                    System.out.println(record.offset());
+                    System.out.println(record.offset()); // qual mensagem é em numero
                     try
                     {
                         Thread.sleep(5000); // esperar 5 segundos pra cada registro
@@ -49,6 +50,7 @@ public class LogService {
         properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, LogService.class.getSimpleName());
+        properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, LogService.class.getSimpleName() + "-" + UUID.randomUUID().toString());// definir nome da maquina que esta executando o consumer
         return properties;
     }
 }
