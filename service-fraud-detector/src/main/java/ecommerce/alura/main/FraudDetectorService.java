@@ -3,8 +3,11 @@ package ecommerce.alura.main;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.math.BigDecimal;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class FraudDetectorService {
 
@@ -20,7 +23,9 @@ public class FraudDetectorService {
        }
     }
 
-    void parse(ConsumerRecord<String, Order> record) {
+    private final KafkaDispatcher<Order> orderDispatcher = new KafkaDispatcher<>();
+
+    void parse(ConsumerRecord<String, Order> record) throws ExecutionException, InterruptedException {
         System.out.println("------------------------------------------");
         System.out.println("Processando novo registro, verificando fraude");
         System.out.println(record.key());
@@ -34,7 +39,23 @@ public class FraudDetectorService {
         {
             e.printStackTrace();
         }
+        var order = record.value();
+
+        if (isFraud(order)){
+            //se o valor for maior que 4500 sera fraude
+            System.out.println("Este pedido é uma fraude: " + order);
+            orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getUserId(), order);
+        }else {
+            System.out.println("Aprovado: " + order);
+            orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getUserId(), order);
+        }
+
+
         System.out.println("Registro processado! ");
+    }
+
+    private boolean isFraud(Order order) {
+        return order.getAmount().compareTo(new BigDecimal("4500")) >= 0;
     }
 
     private static Properties properties(){

@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 class KafkaService<T> implements Closeable {
@@ -44,7 +45,13 @@ class KafkaService<T> implements Closeable {
                 System.out.println("Encontrados " + records.count() + " registros");
                 for (var record : records)
                 {
-                    parse.consume(record);
+                    try {
+                        parse.consume(record);
+                    } catch (Exception e) {
+                        // apenas captura excecoes e segue para o proximo registro
+                        // apenas logar o erro que esta acontecendo e tenta novamente
+                        e.printStackTrace();
+                    }
                 }
             }
         }
