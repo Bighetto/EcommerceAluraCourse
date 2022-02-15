@@ -3,6 +3,8 @@ package ecommerce.alura.main;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class FraudDetectorService {
@@ -11,15 +13,15 @@ public class FraudDetectorService {
     {
 
         var fraudService = new FraudDetectorService();
-       try(var service = new KafkaService(EmailService.class.getSimpleName(),
+       try(var service = new KafkaService<Order>(FraudDetectorService.class.getSimpleName(),
                "ECOMMERCE_NEW_ORDER",
-               fraudService::parse))
+               fraudService::parse, Order.class, Map.of()))
        {
            service.run();
        }
     }
 
-    void parse(ConsumerRecord<String, String> record) {
+    void parse(ConsumerRecord<String, Order> record) {
         System.out.println("------------------------------------------");
         System.out.println("Processando novo registro, verificando fraude");
         System.out.println(record.key());
