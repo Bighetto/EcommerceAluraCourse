@@ -1,0 +1,5 @@
+/home/arthursilva/Documentos/CursoAlura/Kafka/CursoKafkaAlura/common-kafka/src/main/java/ecommerce/alura/main/KafkaService.java
+/home/arthursilva/Documentos/CursoAlura/Kafka/CursoKafkaAlura/common-kafka/src/main/java/ecommerce/alura/main/GsonSerializer.java
+/home/arthursilva/Documentos/CursoAlura/Kafka/CursoKafkaAlura/common-kafka/src/main/java/ecommerce/alura/main/KafkaDispatcher.java
+/home/arthursilva/Documentos/CursoAlura/Kafka/CursoKafkaAlura/common-kafka/src/main/java/ecommerce/alura/main/GSonDeserializer.java
+/home/arthursilva/Documentos/CursoAlura/Kafka/CursoKafkaAlura/common-kafka/src/main/java/ecommerce/alura/main/ConsumerFunction.java

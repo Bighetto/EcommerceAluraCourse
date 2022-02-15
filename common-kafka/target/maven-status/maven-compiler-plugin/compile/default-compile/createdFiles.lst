@@ -1,0 +1,5 @@
+ecommerce/alura/main/KafkaDispatcher.class
+ecommerce/alura/main/GsonSerializer.class
+ecommerce/alura/main/GSonDeserializer.class
+ecommerce/alura/main/ConsumerFunction.class
+ecommerce/alura/main/KafkaService.class
