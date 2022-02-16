@@ -44,10 +44,10 @@ public class FraudDetectorService {
         if (isFraud(order)){
             //se o valor for maior que 4500 sera fraude
             System.out.println("Este pedido é uma fraude: " + order);
-            orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getUserId(), order);
+            orderDispatcher.send("ECOMMERCE_ORDER_REJECTED", order.getEmail(), order);
         }else {
             System.out.println("Aprovado: " + order);
-            orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getUserId(), order);
+            orderDispatcher.send("ECOMMERCE_ORDER_APPROVED", order.getEmail(), order);
         }
 
 
