@@ -13,6 +13,8 @@ public class HttpEcommerceService {
         context.setContextPath("/");
         context.addServlet(new ServletHolder(new NewOrderServlet()), "/new");
 
+        //http://localhost:8080/new?email=arthurb@email.com&amount=300
+
 
         server.setHandler(context);
 
